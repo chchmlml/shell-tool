@@ -20,64 +20,64 @@ if [ ! -d $DUMP_DIR ]; then
 fi
 
 for PID in $DUMP_PIDS ; do
-#Full thread dump ÓÃÀ´²éÏß³ÌÕ¼ÓÃ£¬ËÀËøµÈÎÊÌâ
+#Full thread dump ç”¨æ¥æŸ¥çº¿ç¨‹å ç”¨ï¼Œæ­»é”ç­‰é—®é¢˜
 	$JAVA_HOME/bin/jstack $PID > $DUMP_DIR/jstack-$PID.dump 2>&1
 	echo -e ".\c"
-#´òÓ¡³öÒ»¸ö¸ø¶¨µÄJava½ø³Ì¡¢Java coreÎÄ¼þ»òÔ¶³ÌDebug·þÎñÆ÷µÄJavaÅäÖÃÐÅÏ¢£¬¾ßÌå°üÀ¨JavaÏµÍ³ÊôÐÔºÍJVMÃüÁîÐÐ²ÎÊý¡£
+#æ‰“å°å‡ºä¸€ä¸ªç»™å®šçš„Javaè¿›ç¨‹ã€Java coreæ–‡ä»¶æˆ–è¿œç¨‹DebugæœåŠ¡å™¨çš„Javaé…ç½®ä¿¡æ¯ï¼Œå…·ä½“åŒ…æ‹¬Javaç³»ç»Ÿå±žæ€§å’ŒJVMå‘½ä»¤è¡Œå‚æ•°ã€‚
 	$JAVA_HOME/bin/jinfo $PID > $DUMP_DIR/jinfo-$PID.dump 2>&1
 	echo -e ".\c"
-#jstatÄÜ¹»¶¯Ì¬´òÓ¡jvm(Java Virtual Machine Statistics Monitoring Tool)µÄÏà¹ØÍ³¼ÆÐÅÏ¢¡£Èçyoung gcÖ´ÐÐµÄ´ÎÊý¡¢full gcÖ´ÐÐµÄ´ÎÊý£¬¸÷¸öÄÚ´æ·ÖÇøµÄ¿Õ¼ä´óÐ¡ºÍ¿ÉÊ¹ÓÃÁ¿µÈÐÅÏ¢¡£	
+#jstatèƒ½å¤ŸåŠ¨æ€æ‰“å°jvm(Java Virtual Machine Statistics Monitoring Tool)çš„ç›¸å…³ç»Ÿè®¡ä¿¡æ¯ã€‚å¦‚young gcæ‰§è¡Œçš„æ¬¡æ•°ã€full gcæ‰§è¡Œçš„æ¬¡æ•°ï¼Œå„ä¸ªå†…å­˜åˆ†åŒºçš„ç©ºé—´å¤§å°å’Œå¯ä½¿ç”¨é‡ç­‰ä¿¡æ¯ã€‚	
 	$JAVA_HOME/bin/jstat -gcutil $PID > $DUMP_DIR/jstat-gcutil-$PID.dump 2>&1
 	echo -e ".\c"
 	$JAVA_HOME/bin/jstat -gccapacity $PID > $DUMP_DIR/jstat-gccapacity-$PID.dump 2>&1
 	echo -e ".\c"
-#Î´Ö¸¶¨Ñ¡ÏîÊ±£¬jmap´òÓ¡¹²Ïí¶ÔÏóµÄÓ³Éä¡£¶ÔÃ¿¸öÄ¿±êVM¼ÓÔØµÄ¹²Ïí¶ÔÏó£¬ÆäÆðÊ¼µØÖ·¡¢Ó³Éä´óÐ¡¼°¹²Ïí¶ÔÏóÎÄ¼þµÄÍêÕûÂ·¾¶½«±»´òÓ¡³öÀ´£¬	
+#æœªæŒ‡å®šé€‰é¡¹æ—¶ï¼Œjmapæ‰“å°å…±äº«å¯¹è±¡çš„æ˜ å°„ã€‚å¯¹æ¯ä¸ªç›®æ ‡VMåŠ è½½çš„å…±äº«å¯¹è±¡ï¼Œå…¶èµ·å§‹åœ°å€ã€æ˜ å°„å¤§å°åŠå…±äº«å¯¹è±¡æ–‡ä»¶çš„å®Œæ•´è·¯å¾„å°†è¢«æ‰“å°å‡ºæ¥ï¼Œ	
 	$JAVA_HOME/bin/jmap $PID > $DUMP_DIR/jmap-$PID.dump 2>&1
 	echo -e ".\c"
-#-heap´òÓ¡¶ÑÇé¿öµÄ¸ÅÒªÐÅÏ¢£¬°üÀ¨¶ÑÅäÖÃ£¬¸÷¶Ñ¿Õ¼äµÄÈÝÁ¿¡¢ÒÑÊ¹ÓÃºÍ¿ÕÏÐÇé¿ö	
+#-heapæ‰“å°å †æƒ…å†µçš„æ¦‚è¦ä¿¡æ¯ï¼ŒåŒ…æ‹¬å †é…ç½®ï¼Œå„å †ç©ºé—´çš„å®¹é‡ã€å·²ä½¿ç”¨å’Œç©ºé—²æƒ…å†µ	
 	$JAVA_HOME/bin/jmap -heap $PID > $DUMP_DIR/jmap-heap-$PID.dump 2>&1
 	echo -e ".\c"
-#-dump½«jvmµÄ¶ÑÖÐÄÚ´æÐÅÏ¢Êä³öµ½Ò»¸öÎÄ¼þÖÐ,È»ºó¿ÉÒÔÍ¨¹ýeclipse memory analyzer½øÐÐ·ÖÎö
-#×¢Òâ£ºÕâ¸öjmapÊ¹ÓÃµÄÊ±ºòjvmÊÇ´¦ÔÚ¼ÙËÀ×´Ì¬µÄ£¬Ö»ÄÜÔÚ·þÎñÌ±»¾µÄÊ±ºòÎªÁË½â¾öÎÊÌâÀ´Ê¹ÓÃ£¬·ñÔò»áÔì³É·þÎñÖÐ¶Ï¡£ 
+#-dumpå°†jvmçš„å †ä¸­å†…å­˜ä¿¡æ¯è¾“å‡ºåˆ°ä¸€ä¸ªæ–‡ä»¶ä¸­,ç„¶åŽå¯ä»¥é€šè¿‡eclipse memory analyzerè¿›è¡Œåˆ†æž
+#æ³¨æ„ï¼šè¿™ä¸ªjmapä½¿ç”¨çš„æ—¶å€™jvmæ˜¯å¤„åœ¨å‡æ­»çŠ¶æ€çš„ï¼Œåªèƒ½åœ¨æœåŠ¡ç˜«ç—ªçš„æ—¶å€™ä¸ºäº†è§£å†³é—®é¢˜æ¥ä½¿ç”¨ï¼Œå¦åˆ™ä¼šé€ æˆæœåŠ¡ä¸­æ–­ã€‚ 
 	$JAVA_HOME/bin/jmap -dump:format=b,file=$DUMP_DIR/jmap-dump-$PID.dump $PID 2>&1
 	echo -e ".\c"
-#ÏÔÊ¾±»½ø³Ì´ò¿ªµÄÎÄ¼þÐÅÏ¢
+#æ˜¾ç¤ºè¢«è¿›ç¨‹æ‰“å¼€çš„æ–‡ä»¶ä¿¡æ¯
 if [ -r /usr/sbin/lsof ]; then
 	/usr/sbin/lsof -p $PID > $DUMP_DIR/lsof-$PID.dump
 	echo -e ".\c"
 	fi
 done
-#Ö÷Òª¸ºÔðÊÕ¼¯¡¢»ã±¨Óë´æ´¢ÏµÍ³ÔËÐÐÐÅÏ¢µÄ¡£
+#ä¸»è¦è´Ÿè´£æ”¶é›†ã€æ±‡æŠ¥ä¸Žå­˜å‚¨ç³»ç»Ÿè¿è¡Œä¿¡æ¯çš„ã€‚
 if [ -r /usr/bin/sar ]; then
 /usr/bin/sar > $DUMP_DIR/sar.dump
 echo -e ".\c"
 fi
-#Ö÷Òª¸ºÔðÊÕ¼¯¡¢»ã±¨Óë´æ´¢ÏµÍ³ÔËÐÐÐÅÏ¢µÄ¡£
+#ä¸»è¦è´Ÿè´£æ”¶é›†ã€æ±‡æŠ¥ä¸Žå­˜å‚¨ç³»ç»Ÿè¿è¡Œä¿¡æ¯çš„ã€‚
 if [ -r /usr/bin/uptime ]; then
 /usr/bin/uptime > $DUMP_DIR/uptime.dump
 echo -e ".\c"
 fi
-#ÄÚ´æ²é¿´
+#å†…å­˜æŸ¥çœ‹
 if [ -r /usr/bin/free ]; then
 /usr/bin/free -t > $DUMP_DIR/free.dump
 echo -e ".\c"
 fi
-#¿ÉÒÔµÃµ½¹ØÓÚ½ø³Ì¡¢ÄÚ´æ¡¢ÄÚ´æ·ÖÒ³¡¢¶ÂÈûIO¡¢traps¼°CPU»î¶¯µÄÐÅÏ¢¡£
+#å¯ä»¥å¾—åˆ°å…³äºŽè¿›ç¨‹ã€å†…å­˜ã€å†…å­˜åˆ†é¡µã€å µå¡žIOã€trapsåŠCPUæ´»åŠ¨çš„ä¿¡æ¯ã€‚
 if [ -r /usr/bin/vmstat ]; then
 /usr/bin/vmstat > $DUMP_DIR/vmstat.dump
 echo -e ".\c"
 fi
-#±¨¸æÓëCPUÏà¹ØµÄÒ»Ð©Í³¼ÆÐÅÏ¢
+#æŠ¥å‘Šä¸ŽCPUç›¸å…³çš„ä¸€äº›ç»Ÿè®¡ä¿¡æ¯
 if [ -r /usr/bin/mpstat ]; then
 /usr/bin/mpstat > $DUMP_DIR/mpstat.dump
 echo -e ".\c"
 fi
-#±¨¸æÓëIOÏà¹ØµÄÒ»Ð©Í³¼ÆÐÅÏ¢
+#æŠ¥å‘Šä¸ŽIOç›¸å…³çš„ä¸€äº›ç»Ÿè®¡ä¿¡æ¯
 if [ -r /usr/bin/iostat ]; then
 /usr/bin/iostat > $DUMP_DIR/iostat.dump
 echo -e ".\c"
 fi
-#±¨¸æÓëÍøÂçÏà¹ØµÄÒ»Ð©Í³¼ÆÐÅÏ¢
+#æŠ¥å‘Šä¸Žç½‘ç»œç›¸å…³çš„ä¸€äº›ç»Ÿè®¡ä¿¡æ¯
 if [ -r /bin/netstat ]; then
 /bin/netstat > $DUMP_DIR/netstat.dump
 echo -e ".\c"

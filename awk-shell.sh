@@ -1,66 +1,66 @@
-#É¾³ıtempÎÄ¼şµÄÖØ¸´ĞĞ
+#åˆ é™¤tempæ–‡ä»¶çš„é‡å¤è¡Œ
 awk '!($0 in array) { array[$0]; print }' temp
 
-#²é¿´×î³¤Ê¹ÓÃµÄ10¸öunixÃüÁî
+#æŸ¥çœ‹æœ€é•¿ä½¿ç”¨çš„10ä¸ªunixå‘½ä»¤
 awk '{print $1}' ~/.bash_history | sort | uniq -c | sort -rn | head -n 10
 
-#²é¿´»úÆ÷µÄipÁĞ±í
+#æŸ¥çœ‹æœºå™¨çš„ipåˆ—è¡¨
 ifconfig -a | awk '/Bcast/{print $2}' | cut -c 5-19
 
-#²é¿´»úÆ÷µÄÃ¿¸öÔ¶³ÌÁ´½Ó»úÆ÷µÄÁ¬½ÓÊı
+#æŸ¥çœ‹æœºå™¨çš„æ¯ä¸ªè¿œç¨‹é“¾æ¥æœºå™¨çš„è¿æ¥æ•°
 netstat -antu | awk '$5 ~ /[0-9]:/{split($5, a, ":"); ips[a[1]]++} END {for (ip in ips) print ips[ip], ip | "sort -k1 -nr"}'
 
-#²é¿´Ä³¸ö½ø³Ì´ò¿ªµÄsocketÊıÁ¿
+#æŸ¥çœ‹æŸä¸ªè¿›ç¨‹æ‰“å¼€çš„socketæ•°é‡
 ps aux | grep [process] | awk '{print $2}' | xargs -I % ls /proc/%/fd | wc -l
 
 
-#²é¿´ÎŞÏßÍøÂçµÄip
+#æŸ¥çœ‹æ— çº¿ç½‘ç»œçš„ip
 sudo ifconfig wlan0 | grep inet | awk 'NR==1 {print $2}' | cut -c 6-
 
-#ÅúÁ¿ÖØÃüÃûÎÄ¼ş
+#æ‰¹é‡é‡å‘½åæ–‡ä»¶
 find . -name '*.jpg' | awk 'BEGIN{ a=0 }{ printf "mv %s name%01d.jpg\n", $0, a++ }' | bash
 
-#²é¿´Ä³¸öÓÃ»§´ò¿ªµÄÎÄ¼ş¾ä±úÁĞ±í
+#æŸ¥çœ‹æŸä¸ªç”¨æˆ·æ‰“å¼€çš„æ–‡ä»¶å¥æŸ„åˆ—è¡¨
 for x in `ps -u 500 u | grep java | awk '{ print $2 }'`;do ls /proc/$x/fd|wc -l;done
 
-#¼ÆËãÎÄ¼ştempµÄµÚÒ»ÁĞµÄÖµµÄºÍ
+#è®¡ç®—æ–‡ä»¶tempçš„ç¬¬ä¸€åˆ—çš„å€¼çš„å’Œ
 awk '{s+=$1}END{print s}' temp
 
-#²é¿´×î³£ÓÃµÄÃüÁîºÍÊ¹ÓÃ´ÎÊı
+#æŸ¥çœ‹æœ€å¸¸ç”¨çš„å‘½ä»¤å’Œä½¿ç”¨æ¬¡æ•°
 history | awk '{if ($2 == "sudo") a[$3]++; else a[$2]++}END{for(i in a){print a[i] " " i}}' |  sort -rn | head
 
-#²éÕÒÄ³¸öÊ±¼ä´ÁµÄÎÄ¼şÁĞ±í
+#æŸ¥æ‰¾æŸä¸ªæ—¶é—´æˆ³çš„æ–‡ä»¶åˆ—è¡¨
 cp -p `ls -l | awk '/Apr 14/ {print $NF}'` /usr/users/backup_dir
 
-#¸ñÊ½»¯Êä³öµ±Ç°µÄ½ø³ÌĞÅÏ¢
+#æ ¼å¼åŒ–è¾“å‡ºå½“å‰çš„è¿›ç¨‹ä¿¡æ¯
 ps -ef | awk -v OFS="\n" '{ for (i=8;i<=NF;i++) line = (line ? line FS : "") $i; print NR ":", $1, $2, $7, line, ""; line = "" }'
 
-#²é¿´ÊäÈëÊı¾İµÄÌØ¶¨Î»ÖÃµÄµ¥¸ö×Ö·û
+#æŸ¥çœ‹è¾“å…¥æ•°æ®çš„ç‰¹å®šä½ç½®çš„å•ä¸ªå­—ç¬¦
 echo "abcdefg"|awk 'BEGIN {FS="''"} {print $2}'
 
-#´òÓ¡ĞĞºÅ
+#æ‰“å°è¡Œå·
 ls | awk '{print NR "\t" $0}'
 
-#´òÓ¡µ±Ç°µÄssh ¿Í»§¶Ë
+#æ‰“å°å½“å‰çš„ssh å®¢æˆ·ç«¯
 netstat -tn | awk '($4 ~ /:22\s*/) && ($6 ~ /^EST/) {print substr($5, 0, index($5,":"))}'
 
-#´òÓ¡ÎÄ¼şµÚÒ»ÁĞ²»Í¬ÖµµÄĞĞ
+#æ‰“å°æ–‡ä»¶ç¬¬ä¸€åˆ—ä¸åŒå€¼çš„è¡Œ
 awk '!array[$1]++' file.txt
 
-#´òÓ¡µÚ¶şÁĞÎ¨Ò»Öµ
+#æ‰“å°ç¬¬äºŒåˆ—å”¯ä¸€å€¼
 awk '{ a[$2]++ } END { for (b in a) { print b } }' file
 
-#²é¿´ÏµÍ³ËùÓĞ·ÖÇø
+#æŸ¥çœ‹ç³»ç»Ÿæ‰€æœ‰åˆ†åŒº
 awk '{if ($NF ~ "^[a-zA-Z].*[0-9]$" && $NF !~ "c[0-9]+d[0-9]+$" && $NF !~ "^loop.*") print "/dev/"$NF}'  /proc/partitions
 
-#²é¿´2µ½100ËùÓĞÖÊÊı
+#æŸ¥çœ‹2åˆ°100æ‰€æœ‰è´¨æ•°
 for num in `seq 2 100`;do if [ `factor $num|awk '{print $2}'` == $num ];then echo -n "$num ";fi done;echo
 
-#²é¿´µÚ3µ½µÚ6ĞĞ
+#æŸ¥çœ‹ç¬¬3åˆ°ç¬¬6è¡Œ
 awk 'NR >= 3 && NR <= 6' /path/to/file
 
-#ÄæĞò²é¿´ÎÄ¼ş
+#é€†åºæŸ¥çœ‹æ–‡ä»¶
 awk '{a[i++]=$0} END {for (j=i-1; j>=0;) print a[j--] }'
 
-#´òÓ¡99³Ë·¨±í
+#æ‰“å°99ä¹˜æ³•è¡¨
 seq 9 | sed 'H;g' | awk -v RS='' '{for(i=1;i<=NF;i++)printf("%dx%d=%d%s", i, NR, i*NR, i==NR?"\n":"\t")}'
