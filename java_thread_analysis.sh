@@ -15,11 +15,11 @@ fi
 #pid -- 第一个参数进程pid
 pid=$1
 # checking pid
-# if test -z "$($JAVA_HOME/bin/jps -l | cut -d '' -f 1 | grep $pid)"
-# then
-#     echo "process of $pid is not exists"
-#     exit
-# fi
+ if test -z "$($JAVA_HOME/bin/jps -l | cut -d '' -f 1 | grep $pid)"
+ then
+     echo "process of $pid is not exists"
+     exit
+ fi
 
 #line number -- 第二个参数显示多少行的堆栈信息
 linenum=$2
