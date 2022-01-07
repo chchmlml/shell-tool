@@ -12,10 +12,10 @@ xecho() {
     PINK_COLOR='\033[35m'
     RES='\033[0m'
     #这里判断传入的参数是否不等于2个，如果不等于2个就提示并退出
-    if [ $# -ne 2 ]; then
-        echo "Usage $0 content {red|yellow|blue|green|pink}"
-        exit
-    fi
+    # if [ $# -ne 2 ]; then
+    #     echo "Usage $0 content {red|yellow|blue|green|pink}"
+    #     exit
+    # fi
 
     case "$2" in
     red | RED)
@@ -39,7 +39,8 @@ xecho() {
         ;;
 
     *)
-        echo "请输入指定的颜色代码：{red|yellow|blue|green|pink}"
+        echo "${GREEN_COLOR}$1${RES}"
+        # echo "请输入指定的颜色代码：{red|yellow|blue|green|pink}"
         ;;
     esac
 }
