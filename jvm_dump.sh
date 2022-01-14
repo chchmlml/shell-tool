@@ -1,6 +1,9 @@
 #!/bin/sh
-
-
+# java home
+if test -z $JAVA_HOME 
+then
+    JAVA_HOME='/usr/local/jdk'
+fi
 
 DUMP_PIDS=`ps  --no-heading -C java -f --width 1000 |awk '{print $2}'`
 if [ -z "$DUMP_PIDS" ]; then
